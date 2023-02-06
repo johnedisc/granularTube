@@ -11,7 +11,6 @@ function getGif(query) {
 
   request.addEventListener("loadend", function () {
     const response = JSON.parse(this.responseText);
-    console.log(response['data'][0]['embed_url'])
     console.log(response);
     if (this.status === 200) {
       printElements(response, 'response', query);
@@ -22,13 +21,6 @@ function getGif(query) {
   request.open("GET", url, true);
   request.send();
 }
-
-
-window.addEventListener("load", getGif('superman'));
-
-
-
-
 
 function trendingGif() {
 
@@ -46,11 +38,6 @@ function trendingGif() {
   request.open("GET", url, true);
   request.send();
 }
-window.addEventListener("load", trendingGif());
-
-
-
-
 
 function randomGif() {
 
@@ -68,8 +55,6 @@ function randomGif() {
   request.open("GET", url, true);
   request.send();
 }
-window.addEventListener("load", randomGif());
-
 
 // document.querySelector("#triangle-checker-form").addEventListener("submit", handleTriangleForm);
 // document.querySelector("#rectangle-area-form").addEventListener("submit", handleRectangleForm);
@@ -78,11 +63,17 @@ window.addEventListener("load", randomGif());
 
 // UI Logic
 
+function clearUL() {
+  document.querySelectorAll('ul').forEach(el => {
+    el.innerHTML = '';
+  });
+}
+
 function printElements(apiResponse, element, query) {
   console.log(`The response is: ${apiResponse.meta.status} for the search query: ${query}`);
   let ulElement = document.getElementById(`${element}`);
+  clearUL();
   apiResponse.data.forEach((element, i) => {
-    console.log(apiResponse.data);
     let gifImage = document.createElement('img');
     gifImage.setAttribute('src', `${apiResponse['data'][i]['images']['downsized']['url']}`);
     ulElement.append(gifImage);
@@ -92,6 +83,7 @@ function printElements(apiResponse, element, query) {
 function printSingleElement(apiResponse, element, query) {
   console.log(`The response is: ${apiResponse.meta.status} for the search query: ${query}`);
   let ulElement = document.getElementById(`${element}`);
+  clearUL();
   let gifImage = document.createElement('img');
   gifImage.setAttribute('src', `${apiResponse['data']['images']['downsized']['url']}`);
   ulElement.append(gifImage);
@@ -101,3 +93,16 @@ function printSingleElement(apiResponse, element, query) {
 function printError(request, apiResponse, query) {
   console.log(`There was an error searching ${query}: ${request.status}: ${apiResponse}`);
 }
+
+function handleForm(e) {
+  e.preventDefault();
+  const usrSearch = document.querySelector('#usrSearch').value;
+  getGif(usrSearch); 
+}
+
+window.addEventListener('load', () => {
+  document.querySelector('form').addEventListener('submit', handleForm);
+  document.querySelector('#random').addEventListener('click', randomGif);
+  document.querySelector('#trending').addEventListener('click', trendingGif);
+}
+);
