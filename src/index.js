@@ -1,35 +1,48 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-import Triangle from './js/triangle.js';
-import Rectangle from './js/rectangle.js';
+// import Triangle from './js/triangle.js';
+// import Rectangle from './js/rectangle.js';
 
-function handleTriangleForm() {
-  event.preventDefault();
-  document.querySelector('#response').innerText = null;
-  const length1 = parseInt(document.querySelector('#length1').value);
-  const length2 = parseInt(document.querySelector('#length2').value);
-  const length3 = parseInt(document.querySelector('#length3').value);
-  const triangle = new Triangle(length1, length2, length3);
-  const response = triangle.checkType();
-  const pTag = document.createElement("p");
-  pTag.append(`Your result is: ${response}.`);
-  document.querySelector('#response').append(pTag);
+function getGif(query) {
+
+  let request = new XMLHttpRequest();
+  const url = `https://api.giphy.com/v1/gifs/search?q=${query}&limit=5&api_key=${process.env.API_KEY}`;
+
+  request.addEventListener("loadend", function () {
+    const response = JSON.parse(this.responseText);
+    console.log(response['data'][0]['embed_url'])
+    console.log(response);
+    if (this.status === 200) {
+      printElements(response, query);
+    } else {
+      printError(this, response, query);
+    }
+  });
+  request.open("GET", url, true);
+  request.send();
 }
 
-function handleRectangleForm() {
-  event.preventDefault();
-  document.querySelector('#response2').innerText = null;
-  const length1 = parseInt(document.querySelector('#rect-length1').value);
-  const length2 = parseInt(document.querySelector('#rect-length2').value);
-  const rectangle = new Rectangle(length1, length2);
-  const response = rectangle.getArea();
-  const pTag = document.createElement("p");
-  pTag.append(`The area of the rectangle is ${response}.`);
-  document.querySelector('#response2').append(pTag);
+
+window.addEventListener("load", getGif('superman'));
+// document.querySelector("#triangle-checker-form").addEventListener("submit", handleTriangleForm);
+// document.querySelector("#rectangle-area-form").addEventListener("submit", handleRectangleForm);
+// });
+
+
+// UI Logic
+
+function printElements(apiResponse, query) {
+  console.log(`The response is: ${apiResponse.meta.status} for the search query: ${query}`);
+  let ulElement = document.getElementById('response');
+  apiResponse.data.forEach((element, i) => {
+    console.log(apiResponse.data);
+    let gifImage = document.createElement('img');
+    gifImage.setAttribute('src', `${apiResponse['data'][i]['images']['downsized']['url']}`);
+    ulElement.append(gifImage);
+  });
 }
 
-window.addEventListener("load", function() {
-  document.querySelector("#triangle-checker-form").addEventListener("submit", handleTriangleForm);
-  document.querySelector("#rectangle-area-form").addEventListener("submit", handleRectangleForm);
-});
+function printError(request, apiResponse, query) {
+      console.log(`There was an error searching ${query}: ${request.status}: ${apiResponse}`);
+    }
