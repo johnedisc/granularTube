@@ -8,12 +8,10 @@ function getGif(query) {
 
   let request = new XMLHttpRequest();
   const url = `https://api.giphy.com/v1/gifs/search?q=${query}&limit=5&api_key=${process.env.API_KEY}`;
-
   request.addEventListener("loadend", function () {
     const response = JSON.parse(this.responseText);
-    console.log(response);
     if (this.status === 200) {
-      printElements(response, 'response', query);
+      printElements(response, 'response');
     } else {
       printError(this, response, query);
     }
@@ -23,10 +21,8 @@ function getGif(query) {
 }
 
 function trendingGif() {
-
   let request = new XMLHttpRequest();
   const url = `https://api.giphy.com/v1/gifs/trending?&limit=5&api_key=${process.env.API_KEY}`;
-
   request.addEventListener("loadend", function () {
     const response = JSON.parse(this.responseText);
     if (this.status === 200) {
@@ -40,7 +36,6 @@ function trendingGif() {
 }
 
 function randomGif() {
-
   let request = new XMLHttpRequest();
   const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}`;
 
@@ -55,12 +50,6 @@ function randomGif() {
   request.open("GET", url, true);
   request.send();
 }
-
-// document.querySelector("#triangle-checker-form").addEventListener("submit", handleTriangleForm);
-// document.querySelector("#rectangle-area-form").addEventListener("submit", handleRectangleForm);
-// });
-
-
 // UI Logic
 
 function clearUL() {
@@ -69,15 +58,23 @@ function clearUL() {
   });
 }
 
-function printElements(apiResponse, element, query) {
-  console.log(`The response is: ${apiResponse.meta.status} for the search query: ${query}`);
+function printElements(apiResponse, element) {
+
   let ulElement = document.getElementById(`${element}`);
   clearUL();
-  apiResponse.data.forEach((element, i) => {
-    let gifImage = document.createElement('img');
-    gifImage.setAttribute('src', `${apiResponse['data'][i]['images']['downsized']['url']}`);
-    ulElement.append(gifImage);
-  });
+  try {
+    if (!apiResponse.data.length) {
+      throw new Error('Unable to find any results with that search query');
+    }
+    apiResponse.data.forEach((element, i) => {
+      let gifImage = document.createElement('img');
+      gifImage.setAttribute('src', `${apiResponse['data'][i]['images']['downsized']['url']}`);
+      ulElement.append(gifImage);
+    })
+  } catch (error) {
+    console.log(error);
+    ulElement.append(error);
+  }
 }
 
 function printSingleElement(apiResponse, element, query) {
@@ -97,7 +94,7 @@ function printError(request, apiResponse, query) {
 function handleForm(e) {
   e.preventDefault();
   const usrSearch = document.querySelector('#usrSearch').value;
-  getGif(usrSearch); 
+  getGif(usrSearch);
 }
 
 window.addEventListener('load', () => {
