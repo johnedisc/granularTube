@@ -53,9 +53,15 @@ function randomGif() {
 // UI Logic
 
 function clearUL() {
-  document.querySelectorAll('ul').forEach(el => {
-    el.innerHTML = '';
+  document.querySelectorAll('ul').forEach( el => {
+    while (el.hasChildNodes()) {
+      console.log('removing child element');
+      el.removeChild(el.firstChild);
+    }
   });
+  // document.querySelectorAll('ul').forEach(el => {
+  //   el.innerHTML = '';
+  // });
 }
 
 function printElements(apiResponse, element) {
@@ -85,7 +91,6 @@ function printSingleElement(apiResponse, element, query) {
   gifImage.setAttribute('src', `${apiResponse['data']['images']['downsized']['url']}`);
   ulElement.append(gifImage);
 }
-
 
 function printError(request, apiResponse, query) {
   console.log(`There was an error searching ${query}: ${request.status}: ${apiResponse}`);
