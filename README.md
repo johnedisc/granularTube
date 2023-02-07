@@ -15,6 +15,7 @@
 * npm
 
 ## Description
+A basic website utilizing an API and try...catch statements.  The website allows users to search gifs with a keyword or phrase and will return the top 5 gifs matching the search query.  The user can also call up the top 5 trending gifs or a single random gif.
 
 ## Setup/Installation Requirements
 

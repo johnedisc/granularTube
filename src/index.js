@@ -1,8 +1,6 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-// import Triangle from './js/triangle.js';
-// import Rectangle from './js/rectangle.js';
 
 function getGif(query) {
 
@@ -59,9 +57,6 @@ function clearUL() {
       el.removeChild(el.firstChild);
     }
   });
-  // document.querySelectorAll('ul').forEach(el => {
-  //   el.innerHTML = '';
-  // });
 }
 
 function printElements(apiResponse, element) {
