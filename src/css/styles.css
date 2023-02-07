@@ -1,3 +1,17 @@
 body {
-    background-color: #1F51FF;
+    background-color: lightpink;
   }
+
+#wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+#gifs {
+  display: grid;
+  justify-content:center;
+  grid-template-columns: repeat(2,1fr);
+}
+
+#gifs>* {
+}
