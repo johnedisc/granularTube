@@ -1,15 +1,11 @@
-# (Application Name)
+# Giphy API project
 
 #### (Brief Description of Application)
 
-#### By Zachary Cipolletta
+#### By Zachary Cipolletta and Chris Johnedis
 
 ## Technologies Used
 
-* _List all_
-* _the major technologies_
-* _you used in your project_
-* _here_
 * CSS
 * HTML
 * JavaScript
@@ -45,3 +41,5 @@
 
 ## License
 MIT
+
+Copyright (c) 2/6/2023 Zachary Cipolletta & Chris Johnedis
