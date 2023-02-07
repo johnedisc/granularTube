@@ -1,20 +1,5 @@
+import { Gif } from './js/gifCall.js'
 import './css/styles.css';
-
-function getGif(query) {
-
-  let request = new XMLHttpRequest();
-  const url = `https://api.giphy.com/v1/gifs/search?q=${query}&limit=5&api_key=${process.env.API_KEY}`;
-  request.addEventListener("loadend", function () {
-    const response = JSON.parse(this.responseText);
-    if (this.status === 200) {
-      printElements(response, 'response');
-    } else {
-      printError(this, response, query);
-    }
-  });
-  request.open("GET", url, true);
-  request.send();
-}
 
 function trendingGif() {
   let request = new XMLHttpRequest();
@@ -57,17 +42,17 @@ function clearUL() {
   });
 }
 
-function printElements(apiResponse, element) {
-
-  let ulElement = document.getElementById(`${element}`);
+function printElements(apiDataArr) {
+  console.log(apiDataArr[1]);
+  let ulElement = document.getElementById(apiDataArr[1]);
   clearUL();
   try {
-    if (!apiResponse.data.length) {
-      throw new Error('Unable to find any results with that search query');
+    if (!apiDataArr[0].data.length) {
+      throw new Error(`Unable to find any results with the search query ${apiDataArr[1]}`);
     }
-    apiResponse.data.forEach((element, i) => {
+    apiDataArr[0].data.forEach((element, i) => {
       let gifImage = document.createElement('img');
-      gifImage.setAttribute('src', `${apiResponse['data'][i]['images']['downsized']['url']}`);
+      gifImage.setAttribute('src', `${apiDataArr[0].data[i].images.downsized.url}`);
       ulElement.append(gifImage);
     })
   } catch (error) {
@@ -92,8 +77,15 @@ function printError(request, apiResponse, query) {
 function handleForm(e) {
   e.preventDefault();
   const usrSearch = document.querySelector('#usrSearch').value;
-  getGif(usrSearch);
+  let gifPromise = Gif.searchAPI(usrSearch);
+  gifPromise.then((gifData) => {
+    printElements(gifData);
+  }, (errorData) => {
+    printError(errorData);
+  });
 }
+
+
 
 window.addEventListener('load', () => {
   document.querySelector('form').addEventListener('submit', handleForm);

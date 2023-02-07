@@ -1,4 +1,4 @@
-export default class gif {
+export class Gif {
   static searchAPI(query) {
     return new Promise(function(resolve,reject) {
       let request = new XMLHttpRequest();
@@ -13,8 +13,6 @@ export default class gif {
       });
       request.open("GET", url, true);
       request.send();
-    }
+    });
   }
-
-
 }
