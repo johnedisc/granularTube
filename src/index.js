@@ -3,17 +3,22 @@ import { callAPI } from './js/callAPI';
 
 function fetchTube(query) {
   callAPI(query)
-    .then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
+    .then((resolveValue) => {
+      return resolveValue
+    }, (rejectValue) => {
+      return rejectValue;
+    })
+    .then((newValue) => {
+      printResult(newValue);
+    }, (newReject) => {
+      printResult(newReject);
+    })
   
 }
 
-// function printResult(apiObject) {
-//   document.getElementById("output").innerHTML = '';
-// }
+function printResult(apiObject) {
+  document.getElementById("output").innerHTML = apiObject;
+}
 
 
 function handleFormSubmission(e) {

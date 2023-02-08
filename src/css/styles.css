@@ -1,0 +1,23 @@
+body {
+  font-family: Quicksand, sans-serif;
+}
+
+button, input {
+  font-family: inherit;
+}
+
+h1 {
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+
+.container, #result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
