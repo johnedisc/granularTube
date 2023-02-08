@@ -1,5 +1,5 @@
 export class Granular {
-  static async fetchTube(q) {
+  static async callAPI(q) {
     try {
       
       const response = await fetch (`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&key=${process.env.API_KEY}`);

@@ -14,12 +14,19 @@ import { Granular } from './js/fetchTube';
 //   // return video;
 // }
 async function fetchTube(q) {
-  const response =  await Granular.fetchTube(q);
+  const response =  await Granular.callAPI(q);
   if (response.items) {
     console.log(response.items[0].id.videoId);
+    printResult(response);
   } else {
     console.log(response);
   }
+}
+
+function printResult(obj) {
+  document.getElementById("output").innerHTML = obj.items[0].id.videoId;
+  // console.log(fetchTube(q));
+
 }
 
 
@@ -27,8 +34,6 @@ function handleFormSubmission(e) {
   e.preventDefault();
   const q = document.getElementById("search").value;
   fetchTube(q);
-  // document.getElementById("output").innerHTML = ;
-  // console.log(fetchTube(q));
 }
 
 window.addEventListener("load", function() {
