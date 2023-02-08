@@ -3,16 +3,24 @@ import './css/styles.css';
 
 
 // async await fetch
-async function fetchTube() {
-  const response = await fetch (`https://www.googleapis.com/youtube/v3/search?part=snippet&q=apple+trees&type=video&key=${process.env.API_KEY}`);
+async function fetchTube(q) {
+  const response = await fetch (`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&key=${process.env.API_KEY}`);
 
   const data = await response.json();
-
-  console.log(data);
+  const video = data.items[0].id.videoId;
+  console.log(typeof(video));
+  return video;
 }
 
-  fetchTube();
 
-// function handleForm(e) {
-//   e.preventDefault();
-// }
+function handleFormSubmission(e) {
+  e.preventDefault();
+  const q = document.getElementById("search").value;
+  fetchTube(q);
+  document.getElementById("output").innerHTML = ;
+  console.log(fetchTube(q));
+}
+
+window.addEventListener("load", function() {
+  document.querySelector('form').addEventListener('submit', handleFormSubmission);
+});
