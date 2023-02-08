@@ -1,8 +1,8 @@
-# Giphy API project
+# granularTube
 
-#### (Brief Description of Application)
+#### a simple youtube search allowing granular control over search filters
 
-#### By Zachary Cipolletta and Chris Johnedis
+#### [see youtube docs for more information on their api calls](https://developers.google.com/youtube/v3/sample_requests)
 
 ## Technologies Used
 
