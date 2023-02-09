@@ -1,21 +1,20 @@
 export function callAPI(query) {
   return new Promise(function(resolve, reject) {
-    if (query) {
-      resolve(query)
-    } else {
-      reject(`search query doesn't exist`)
-    }
+    let response = new XMLHttpRequest();
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${process.env.API_KEY}`;
+
+    response.addEventListener('loadend', function() {
+      console.log(response);
+      let apiData = JSON.parse(this.responseText);
+      if (response.status === 200) {
+        resolve(apiData);
+      } else {
+        reject(`search query doesn't exist`);
+      }
+
+    });
+
+    response.open('GET',url,true);
+    response.send();
   });
-  // try {
-  //   const response = await fetch (`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&key=${process.env.API_KEY}`);
-  //   const data = await response.json();
-  //   if (!response.ok) {
-  //     const errMessage = `${response.status} ${response.statusText}
-  //     ${data.message}`;
-  //     throw new Error(errMessage);
-  //   }
-  //   return data;
-  // } catch(error) {
-  //   return error;
-  // }
 }
