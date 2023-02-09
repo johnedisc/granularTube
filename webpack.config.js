@@ -12,14 +12,20 @@ module.exports = {
   },
   devtool: 'eval-source-map',
   devServer: {               
-    contentBase: './dist'    
+    open: {
+      app: {
+        name: 'google-chrome',
+      },
+    },
   },
   plugins: [
     new ESLintPlugin(),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      verbose: true
+    }),
     new Dotenv,
     new HtmlWebpackPlugin({
-      title: 'Shape Tracker',
+      title: 'granularTube',
       template: './src/index.html',
       inject: 'body'
     })
